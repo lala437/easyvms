@@ -17,7 +17,7 @@ services:
              build:
                      context: .
                      args:
-                        DATA_HOST: easyvms_db
+                        DATA_HOST: db
                         DATA_USER: easyvms
                         DATA_DB: easyvms
                         DATA_PASS: easyvms123    
