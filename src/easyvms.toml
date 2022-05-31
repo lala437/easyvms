@@ -1,0 +1,20 @@
+#监听配置
+[listen]
+ip = "0.0.0.0"
+port = 8050
+
+[postgres]
+host = "{DATAHOST}"
+port = 5432
+user = "{DATAUSER}"
+password = "{DATAPASS}"
+database = "{DATADB}"
+
+[admin]
+path="/easyvms"
+
+[index]
+area = "中国,美国,英国,德国,法国,俄罗斯,日本,韩国,中国香港,中国台湾,意大利,西班牙"
+lang = "中文,英语,法语,德语,俄语,日语,韩语,粤语,意大利语,西班牙语"
+year = "2022,2021,2020,2019,2018,2017,2016,2015,2014,2013,2012,2011,2010"
+

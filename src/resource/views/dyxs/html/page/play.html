@@ -1,0 +1,305 @@
+{{define "seokey"}}
+<title>{{easyvms "name"}}-正在播放{{.video.Name}}</title>
+<meta name="keywords" content="{{.video.Name}}高清观看,{{.video.Name}}在线播放" />
+<meta name="description" content="{{.video.Name}}高清观看,{{.video.Name}}在线播放" />
+<script type="text/javascript">var vod_name="{{.video.Name}}",vod_url="/play/{{.video.Id}}/play.html"</script>
+{{end}}
+{{define "css"}}{{end}}
+{{define "header"}}
+<body  class="page play">
+<header id="header" class="wrapper">
+    <div class="nav content">
+        <div class="brand">
+            <a href="/" class="logo" title=""><img src="{{easyvms "logo"}}" alt="{{easyvms "name"}}"></a>
+        </div>
+        <div class="nav-search">
+            <form action="/search">
+                <div class="search-box">
+                    <input class="search-input ac_wd" id="txtKeywords" type="text" name="cz" autocomplete="off" placeholder="搜索电影、电视剧、综艺、动漫">
+                    <button class="search-btn search-go" type="submit"><i class="icon-search"></i></button>
+                    <button class="cancel-btn" type="button">取消</button>
+                </div>
+            </form>
+        </div>
+        <nav class="nav-menu">
+            <ul class="nav-menu-items">
+                <li class="nav-menu-item"><a href="/" class="nav-link white" title="首页"><i class="icon-home"></i>首页</a></li>
+                <li class="nav-menu-item"><a href="/list/1/list.html" class="white " title="电影"><i class="icon-cate-dy"></i>电影</a></li>
+                <li class="nav-menu-item"><a href="/list/2/list.html" class="white " title="电视"><i class="icon-cate-ds"></i>电视</a></li>
+                <li class="nav-menu-item"><a href="/list/3/list.html" class="white " title="综艺"><i class="icon-cate-zy"></i>综艺</a></li>
+                <li class="nav-menu-item"><a href="/list/4/list.html" class="white " title="动漫"><i class="icon-cate-dm"></i>动漫</a></li>
+                <li class="space-line-bold white "></li>
+                <li class="nav-menu-item drop">
+					<span class="nav-menu-icon">
+                        <i class="icon-watch-history  white "></i>
+                    </span>
+                    <div class="drop-content drop-history">
+                        <div class="drop-content-box">
+                            <ul class="drop-content-items" id="history">
+                                <li class="list-item list-item-title">
+                                    <a href="" class="playlist historyclean">
+                                        <i class="icon-clear"></i>
+                                    </a>
+                                    <strong>我的观影记录</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="shortcuts-mobile-overlay"></div>
+                </li>
+                <li class="space-line-bold"></li>
+                <li class="nav-menu-item drop">
+					<span class="nav-menu-icon">
+                        <i class="icon-all" style="color: #fff;"></i>
+                    </span>
+                    <div class="drop-content sub-block">
+                        <div class="drop-content-box grid-box">
+                            <ul class="drop-content-items grid-items">
+                                <li class="grid-item"><a href="/"><i class="icon-home"></i><div class="grid-item-name" title="首页">首页</div></a></li>
+                                <li class="grid-item"><a href="/list/1/list.html"><i class="icon-cate-dy"></i><div class="grid-item-name" title="电影">电影</div></a></li>
+                                <li class="grid-item"><a href="/list/2/list.html"><i class="icon-cate-ds"></i><div class="grid-item-name" title="电视">电视</div></a></li>
+                                <li class="grid-item"><a href="/list/3/list.html"><i class="icon-cate-zy"></i><div class="grid-item-name" title="综艺">综艺</div></a></li>
+                                <li class="grid-item"><a href="/list/4/list.html"><i class="icon-cate-dm"></i><div class="grid-item-name" title="动漫">动漫</div></a></li>
+                                <li class="grid-item grid-more">
+                                    <a class="grid-more-link"  href="/list/1/list.html" title="查看全部影片">
+                                        <div class="grid-item-name">全部影片</div>
+                                    </a>
+                                </li>
+<!--                                <li class="grid-item grid-more android">-->
+<!--                                    <a href="/" class="grid-more-link" title="下载APP">-->
+<!--                                        <div class="grid-item-name">下载客户端</div>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="shortcuts-mobile-overlay"></div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+{{end}}
+{{ define "content"}}
+<main id="main" class="wrapper">
+    <div class="player-block">
+        <div class="content">
+            <div class="player-box">
+                <div class="player-box-main">
+                    <div class="tips-box"><span class="close-btn"><i class="icon-close-o"></i></span>
+                        <ul class="tips-list">
+                            <div class="swiper-container swiper-container-initialized swiper-container-vertical swiper-container-pointer-events">
+                                <div class="swiper-wrapper" id="swiper-wrapper-d310984e5afba371c" aria-live="off" style="transition-duration: 0ms; transform: translate3d(0px, -4320px, 0px);"><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="3" style="height: 1440px;" role="group" aria-label="1 / 6"><span class="btn-yellow">收藏</span>网址：{{easyvms "domin"}}<strong>记得收藏哟～</strong></li>
+                                    <li class="swiper-slide" data-swiper-slide-index="0" style="height: 1440px;" role="group" aria-label="2 / 6">正在播放{{.video.Name}}</li>
+                                    <li class="swiper-slide swiper-slide-prev" data-swiper-slide-index="1" style="height: 1440px;" role="group" aria-label="3 / 6"><span class="btn-main">提醒</span>不要轻易相信视频中的任何广告，谨防上当受骗</li>
+                                    <li class="swiper-slide swiper-slide-active" data-swiper-slide-index="2" style="height: 1440px;" role="group" aria-label="4 / 6"><span class="btn-yellow">技巧</span>如遇视频无法播放或加载速度慢，可尝试切换播放节点</li>
+                                    <li class="swiper-slide swiper-slide-next" data-swiper-slide-index="3" style="height: 1440px;" role="group" aria-label="5 / 6"><span class="btn-yellow">收藏</span>网址：{{easyvms "domin"}}<strong>记得收藏哟～</strong></li>
+                                    <li class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="0" role="group" aria-label="6 / 6" style="height: 1440px;">正在播放{{.video.Name}}</li></div><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                        </ul>
+                    </div>
+                    <div class="player-wrapper">
+                        <style>.EvPlayer{background: #000000;font-size:14px;color:#F6F6F6;margin:0px;padding:0px;position:relative;overflow:hidden;width:100%;height:100%;min-height:100px;}.EvPlayer table{width:100%;height:100%;}.EvPlayer #playleft{position:inherit;!important;width:100%;height:100%;}</style>
+                        <div class="EvPlayer"><iframe id="install" src="" frameborder="0" scrolling="no" width="100%" height="100%" style="position:absolute;z-index:99998;display:none;"></iframe><table border="0" cellpadding="0" cellspacing="0" class="in" style="height: 100%; width: 450px;"><tbody><tr><td id="playleft" valign="top" style=""><iframe width="100%" height="100%" src="{{.nowplay.play}}" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" security="restricted" sandbox="allow-same-origin allow-forms allow-scripts"></iframe></td></tr></tbody></table></div>
+                        <div class="player-box-switch">
+						<span class="btn_switch_bg">
+							<svg class="svg_icon" viewBox="0 0 9 59" width="9" height="59"><path d="M3.8,5.1C1.7,4.3,0.2,2.4,0,0h0v5v4v41v5v3.9c0.6-1.9,2.1-3.4,4-4v0c2.9-0.7,5-3.2,5-6.3v-37  C9,8.4,6.8,5.7,3.8,5.1z"></path></svg>
+						</span>
+                            <i class="icon-arrow-left-o"></i>
+                            <i class="icon-arrow-right-o"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="player-info">
+                <div class="video-info">
+                    <div class="video-info-box">
+                        <div class="video-info-header">
+                            <h1 class="page-title"><a href="#" title="{{.video.Name}}">{{.video.Name}}</a></h1>
+                            <span class="btn-pc page-title"></span>
+                            <div class="video-info-aux">
+                                <a class="tag-link" href="#">{{.video.Tags}}</a>
+                                <a class="tag-link" href="#">{{.video.Area}}</a>
+                                <a class="tag-link" href="#">{{.video.Director}}</a>
+                                <a class="tag-link" href="#">{{.video.Actor}}</a>
+                            </div>
+                        </div>
+                        <div class="video-info-main" style="display: block">
+                            <div class="video-info-items"><span class="video-info-itemtitle">剧情：</span>
+                                <div class="video-info-item video-info-content">
+                                    <p class="zkjj_a">{{.video.Description}}<span class="zk_jj red">[展开全部]</span></p><p class="sqjj_a" style="display: none;">{{.video.Description}}<span class="sq_jj red">[收起部分]</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-player-handle">
+                        <a href="{{.nowplay.next}}" class="btn-block-o handle-btn" title="播放{{.video.Name}}下一集"><i class="icon-next"></i><p class="block-name">下一集</p></a>
+                        <div class="drop pc"><span class="btn-block-o handle-btn handle-more" title="拿起手机扫一扫"><i class="icon-qrcode"></i>
+                        <p class="block-name">手机看</p>
+                        </span>
+                            <div class="drop-content handle-more-drop">
+                                <div class="drop-content-box">
+                                    <div class="drop-content-items"><a class="btn-qrcode"><div class="qrcode-img"></div><div class="block-name"><p>使用 手机浏览器 扫码观看</p><strong>{{.video.Name}}</strong></div></a></div>
+                                </div>
+                            </div>
+                            <div class="shortcuts-mobile-overlay"></div>
+                        </div>
+                        <div class="video-player-handle-more">
+                            <div class="btn-block-o handle-btn handle-share share-btn" title="分享《{{.video.Name}}》给朋友一起看" data-clipboard-text="我正在观看{{.video.Name}}，推荐给你一起看！地址:http://v.easyvods.com/play-2evsQ4NrcH7lTG0pNn.html"><i class="icon-share"></i>
+                                <p class="block-name">分享</p>
+                            </div>
+                            <div class="drop"><span class="btn-block-o handle-btn handle-more"><i class="icon-more"></i>
+                <p class="block-name">观影+</p>
+                </span>
+                                <div class="drop-content handle-more-drop">
+                                    <div class="drop-content-box">
+                                        <div class="drop-content-items"><a class="btn-block-o btn-report" href="javascript:;"><i class="icon-warn"></i>
+                                            <p class="block-name"><strong>影片报错</strong><br>
+                                                如遇无法播放请提交给我们</p>
+                                        </a><a class="btn-block-o btn-screen"><i class="icon-tv"></i>
+                                            <p class="block-name"><strong>投屏到电视</strong><br>
+                                                教程：把手机影片投到电视上播放</p>
+                                        </a></div>
+                                    </div>
+                                </div>
+                                <div class="shortcuts-mobile-overlay"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--AD3-->
+
+                <!---->
+            </div>
+
+            <div class="player-box-side">
+                <div class="module-heading">
+                    <h2 class="module-title" title="{{.video.Name}}的在线观看列表">在线观看</h2>
+                    <div class="module-tab module-player-tab  player-side-tab">
+                        <input type="hidden" name="tab" id="tab" class="module-tab-input">
+                        <label class="module-tab-name"><span class="module-tab-value">切换节点</span><i class="icon-arrow-bottom-o"></i></label>
+                        <div class="module-tab-items">
+                            <div class="module-tab-title">播放节点列表<span class="close-drop"><i class="icon-close-o"></i></span></div>
+                            <div class="module-tab-content">
+                                 {{ range $key,$value:=.play }}
+                                <div class="module-tab-item tab-item {{if eq $.nowplay.from $key}}selected{{end}}" data-dropdown-value="{{$key}}"><span>{{$key}}</span></div>
+                                 {{end}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shortcuts-mobile-overlay"></div>
+                </div>
+                {{ range $key,$value:=.play }}
+                <div class="module-list module-player-list tab-list sort-list module-vod-list {{if eq $.nowplay.from $key}}selected{{end}} player-side-playlist">
+                    <div class="module-tab module-sorttab">
+                        <input type="hidden" name="tab-sort" id="tab-sort" class="module-tab-input">
+                        <label class="module-tab-name"><i class="icon-all"></i></label>
+                        <div class="module-tab-items">
+                            <div class="module-tab-title">选集<span class="close-drop"><i class="icon-close-o"></i></span><a class="Description sort-button" href="javascript:void(0);" to="#sort-item-{{$key}}"><i class="icon-sort"></i>排序</a></div>
+                            <div class="module-tab-content">
+                                <div class="module-blocklist">
+                                    <div class="sort-item" id="sort-item-{{$key}}">
+                                        {{range $value}}
+                                        <a href="{{.play}}" class="{{if eq $.nowplay.url .play}}selected{{end}}" title="播放"><span>{{.espoide}}</span></a>
+                                        {{end}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shortcuts-mobile-overlay"></div>
+                    <div class="module-blocklist scroll-box scroll-box-y">
+                        <div class="scroll-content">
+                            {{range $value}}
+                            <a href="{{.play}}" class="{{if eq $.nowplay.url .play}}selected{{end}}" title="播放"><span>{{.espoide}}</span></a>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+    <div class="content">
+
+    </div>
+</main>
+<div class="popup popup-tips none" >
+    <div class="popup-header">
+        <h3 class="popup-title">投屏教程</h3>
+    </div>
+    <div class="popup-main">
+        <p><strong>第一步</strong><br>
+            将电视/盒子、手机连接到同一WIFI下；</p>
+        <p><strong>第二步</strong><br>
+            在视频播放页面，找到 <strong><i class="icon-screen-o"></i></strong> 图标，从列表中选择需要投屏的设备即可投屏成功；</p>
+        <p><strong>依然无法连接到电视？</strong><br>
+            请点击下方按钮，查看不同手机和浏览器的投屏教程。</p>
+    </div>
+    <div class="popup-footer"><a href="/" target="_blank" class="popup-btn-o">查看详细教程</a></div>
+    <div class="close-popup" id="close-popup"><i class="icon-close-o"></i></div>
+</div>
+
+<div class="shortcuts-mobile-overlay"></div>
+<div class="popup popup-report none" id="report-popup">
+    <div class="popup-icon"><img src="{{"dyxs/asset/picture/report.svg" | evasset}}"></div>
+    <div class="popup-header">
+        <h2 class="popup-title">我要报错</h2>
+    </div>
+    <div class="popup-main">
+        <div class="report-box">
+            <form class="gbook_form">
+                <input type="hidden" name="gbook_rid" value="{$param.id}">
+                <p>如遇影片无法播放，可能存在网络拥堵等情况，可尝试<strong>切换节点</strong>或<strong>刷新</strong>页面。</p>
+                <p>尝试后以下影片仍无法播放：</p>
+                <textarea class="report-content" name="gbook_content"></textarea>
+
+                <p class="verify-box"><input class="report-content report-input" name="verify" type="text" autocomplete="off">
+                    <img class="report-verify" src="" onClick="this.src+='?'" ></p>
+
+                <input type="button" class="gbook_submit popup-btn" value="确认无误，提交">
+            </form>
+        </div>
+    </div>
+    <div class="close-popup"><i class="icon-close-o"></i></div>
+</div>
+<div class="shortcuts-mobile-overlay"></div>
+{{end}}
+{{define "js"}}
+<script>
+    $(".sq_jj").click(function(){
+        $(".sqjj_a").toggle();
+        $(".zkjj_a").toggle();
+    });
+    $(".zk_jj").click(function(){
+        $(".sqjj_a").toggle();
+        $(".zkjj_a").toggle();
+    });
+    if ($('.swiper-container').length > 0) {
+        var mySwiper = new Swiper('.swiper-container', {
+            direction: 'vertical',
+            speed: 500,
+            autoplay: {
+                delay: 5000,
+                stopOnLastSlide: false,
+                disableOnInteraction: false,
+            },
+            loop: true
+        });
+    }
+</script>
+<script>
+    window.onload=function(){
+        var ha = ($('.EvPlayer').find('table').offset().top + $('.EvPlayer').find('table').height());
+        $(window).scroll(function(){
+            if ( $(window).scrollTop() > ha ) {
+                $('.EvPlayer').find('table').removeClass('in').addClass('out');
+                $('.EvPlayer').find('table').css('height','250px');
+                $('.EvPlayer').find('table').css('width','450px');
+            } else if ( $(window).scrollTop() < ha) {
+                $('.EvPlayer').find('table').removeClass('out').addClass('in');
+                $('.EvPlayer').find('table').css('height','100%');
+            }
+        });
+    }
+</script>
+{{end}}

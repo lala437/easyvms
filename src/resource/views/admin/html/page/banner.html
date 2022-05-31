@@ -1,0 +1,186 @@
+{{define "css"}}{{end}}
+{{ define "content" }}
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <button id="AddDataBtn" class="layui-btn">添加轮播</button>
+        </div>
+        <div class="layui-card-body">
+            <table id="DataTable" lay-filter="DataTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="DataFormView">
+    <form id="DataForm" lay-filter="DataForm" class="layui-form model-form layui-row">
+        <input name="id" type="hidden"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required">名称:</label>
+            <div class="layui-input-block">
+                <input name="name" placeholder="请输入Banner名称" class="layui-input" lay-verType="tips" lay-verify="required"
+                       required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required">URL:</label>
+            <div class="layui-input-block">
+                <input name="url" placeholder="请输入Banner地址" class="layui-input" lay-verType="tips" lay-verify="required" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required">图标:</label>
+            <div class="layui-input-block">
+                <input name="pic" placeholder="请输入Banner图标" class="layui-input" lay-verType="tips" lay-verify="required" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required">排序:</label>
+            <div class="layui-input-block">
+                <input name="sort" placeholder="请输入排序,数字越大越靠前" class="layui-input"  lay-verType="tips" lay-verify="required" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required">状态:</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="1" title="开启">
+                <input type="radio" name="status" value="0" checked  title="关闭">
+            </div>
+        </div>
+    </form>
+</script>
+<!-- 表格操作列 -->
+<script type="text/html" id="tableBar">
+    <div class="layui-btn-fluid">
+        <a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
+    </div>
+</script>
+{{end}}
+{{define "js"}}
+<script>
+    layui.use(['layer', 'admin', 'form', 'table'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var admin = layui.admin;
+        var form = layui.form;
+        var table = layui.table;
+        var job, action;
+
+        // 渲染表格
+        var insTb = table.render({
+            elem: '#DataTable',
+            method: "post",
+            url: "{{"banner"|adminurl}}&action=list",
+            page: false,
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            cellMinWidth: 100,
+            cols: [[
+                {field: 'Name', align: "center", title: '名称'},
+                {field: 'Url', align: "center", title: '地址'},
+                {field: 'Pic', align: "center", title: '图标'},
+                {field: 'Sort', align: "center", title: '排序'},
+                {field: 'Status', align: "center", title: '状态',templet:function (dd){
+                               return dd.Status==1?"显示":"隐藏"
+                    }},
+                {title: '操作', width: 400, toolbar: '#tableBar', align: "center"}
+            ]],
+            size: 'lg'
+        });
+
+        // 添加Banner
+        $('#AddDataBtn').click(function () {
+            action = 'add';
+            jobaddorupdate('add');
+        });
+
+        //打开添加或者编辑视频窗口
+        function jobaddorupdate(type, dataobj = null) {
+            admin.open({
+                type: 1,
+                scrollbar: false,
+                title: type == 'add' ? '添加轮播' : "编辑轮播",
+                area: ['auto', 'auto'],
+                offset: 'auto',
+                btn:["提交","取消"],
+                fixed: true,
+                content: $('#DataFormView').html(),
+                success: function (layero, dIndex) {
+                    $(layero).children('.layui-layer-content').css('overflow', 'visible');
+                    admin.modelForm(layero, 'DataFormSubmit', 'DataForm');
+                    if (type == "update") {
+                        let data = dataobj.data;
+                        form.val("DataForm", {
+                            id: data.Id,
+                            name: data.Name,
+                            url: data.Url,
+                            pic: data.Pic,
+                            sort: data.Sort,
+                            status: data.Status,
+                        })
+                    }
+                    form.render();
+                }
+            });
+        }
+
+        //提交数据
+        form.on("submit(DataFormSubmit)", function (obj) {
+            layer.confirm("确认提交?", function (index) {
+                layer.load(2);
+                let data = obj.field;
+                let url = "{{"banner"|adminurl}}&action=" + action;
+                admin.req(url, {data: data}, function (res) {
+                    layer.closeAll('loading');
+                    layer.msg(res.msg)
+                    switch (action) {
+                        case "add":
+                            if (res.status == 200) {
+                                table.reload('DataTable')
+                            }
+                            break;
+                        case "update":
+                            if (res.status == 200) {
+                                job.update({
+                                    name: data.Name,
+                                    url: data.Url,
+                                    pic: data.Pic,
+                                    sort: data.Sort,
+                                    status: data.Status,
+                                })
+                            }
+                            break;
+
+                    }
+                }, 'post')
+            })
+            return false;
+        })
+
+        // 工具条点击事件
+        table.on('tool(DataTable)', function (obj) {
+            let url  = ""
+            let data = obj.data;
+            let layEvent = obj.event;
+            switch (layEvent) {
+                case "edit":
+                    job = obj;
+                    action = "update";
+                    jobaddorupdate('update', obj)
+                    break;
+                case "delete":
+                    layer.confirm("确认删除?", function (index) {
+                        layer.load(2);
+                        url = "{{"banner"|adminurl}}&action=delete";
+                        admin.req(url, {data: {id: data.Id}}, function (res) {
+                            layer.closeAll('loading');
+                            if (res.status == 200) {
+                                obj.del();
+                            }
+                            layer.msg(res.msg);
+                        }, 'post')
+                    });
+                    break;
+            }
+        });
+    });
+</script>
+{{end}}

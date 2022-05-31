@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    {{template "seokey" .}}
+    <link rel="icon" href="log" type="image/png" />
+    <link href="{{"dyxs/asset/css/style.css" | evasset}}" rel="stylesheet" type="text/css">
+    <link href="{{"dyxs/asset/css/ali.css"|evasset}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{"dyxs/asset/css/swiper-bundle.min.css"|evasset}}" type="text/css">
+    <script>var maccms={"path":"","mid":"","url":"/","wapurl":"/","mob_status":"0"};</script>
+    <script type="text/javascript"  src="{{"dyxs/asset/js/jquery.js"|evasset}}"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.4.0/layer.min.js"></script>
+    <script type="text/javascript"  src="{{"dyxs/asset/js/jquery.lazyload.js"|evasset}}"></script>
+    <script type="text/javascript"  src="{{"dyxs/asset/js/jquery.autocomplete.js"|evasset}}"></script>
+    <script type="text/javascript" src="{{"dyxs/asset/js/jquery.cookie.js"|evasset}}"></script>
+    <script type="text/javascript"  src="{{"dyxs/asset/js/home.js"|evasset}}"></script>
+    <script type="text/javascript"  src="{{"dyxs/asset/js/jquery.clipboard.js"|evasset}}"></script>
+    <script type="text/javascript"  src="{{"dyxs/asset/js/swiper-bundle.min.js"|evasset}}"></script>
+    <script type="text/javascript"  src="{{"dyxs/asset/js/jquery.qrcode.min.js"|evasset}}"></script>
+    <script type="text/javascript"  src="{{"dyxs/asset/js/script.js"|evasset}}"></script>
+    <script type="text/javascript"  src="{{"dyxs/asset/js/history.js"| evasset}}"></script>
+    {{template "css" .}}
+</head>
+{{template "header" .}}
+{{template "content" .}}
+<footer id="footer" class="wrapper">
+    <p class="sitemap">
+        <a target="_blank" href="/">MAP</a><span class="space-line-bold"></span>
+        <a target="_blank" href="/">RSS</a><span class="space-line-bold"></span>
+        <a target="_blank" href="/">Baidu</a><span class="space-line-bold"></span>
+        <a target="_blank" href="/">Google</a><span class="space-line-bold"></span>
+        <a target="_blank" href="/">Bing</a><span class="space-line-bold"></span>
+        <a target="_blank" href="/">so</a><span class="space-line-bold"></span>
+        <a target="_blank" href="/">Sogou</a><span class="space-line-bold"></span>
+        <a target="_blank" href="/">SM</a>
+    </p>
+    <p>本站所有内容均来自互联网分享站点所提供的公开引用资源，未提供资源上传、存储服务 如有侵权请联系{{easyvms "email"}}。本站ICP:{{easyvms "icp"}}</p>
+
+    <p class="none">{{easyvms "tongji" | html}}</p>
+</footer>
+<div class="foot_right_bar" style="display: none">
+    <div title="求片留言">
+        <a  href="/" >
+            <i class="iconfont icon-liuyan"></i>
+        </a>
+    </div>
+    <div class="goTop" title="返回顶部">
+        <i class="iconfont icon-up"></i>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $(window).scroll(function() {
+            if($(window).scrollTop() >= 100){
+                $('.foot_right_bar').show()
+                $('.goTop').fadeIn(300);
+            }else{
+                $('.foot_right_bar').hide()
+                $('.goTop').fadeOut(300);
+            }
+        });
+        $('.goTop').click(function(){
+            $('html,body').animate({scrollTop: '0px'}, 800);});
+    });
+</script>
+<div class="popup" id="note" style="display:none;">
+    <div class="popup-icon"><img src="{{"dyxs/asset/picture/backhome.svg"|evasset}}"></div>
+    <div class="popup-header">
+        <h3 class="popup-title">公告内容</h3>
+    </div>
+    <div class="popup-main">
+        {{easyvms "notice"}}
+    </div>
+    <div class="popup-footer"><span class="popup-btn" onclick="closeclick()">我记住啦</span></div>
+</div>
+<script src="{{"dyxs/asset/js/tccookie.js"|evasset}}"></script>
+
+<div class="shortcuts-mobile-overlay"></div>
+<div class="shortcuts-box"><div id="shortcuts-info"></div></div>
+
+<div class="shortcuts-mobile-overlay"></div>
+{{template "js" .}}
+</body>
+</html>

@@ -1,0 +1,197 @@
+{{define "seokey"}}
+<title>{{easyvms "name"}}-影视库</title>
+<meta name="keywords" content="{{easyvms "name"}}影视库" />
+<meta name="description" content="{{easyvms "name"}}影视库" />
+{{end}}
+{{define "css"}}{{end}}
+{{define "header"}}
+<body  class="page play">
+<header id="header" class="wrapper">
+    <div class="nav content">
+        <div class="brand">
+            <a href="/" class="logo" title=""><img src="{{easyvms "logo"}}" alt="{{easyvms "name"}}"></a>
+        </div>
+        <div class="nav-search">
+            <form action="/search">
+                <div class="search-box">
+                    <input class="search-input ac_wd" id="txtKeywords" type="text" name="cz" autocomplete="off" placeholder="搜索电影、电视剧、综艺、动漫">
+                    <button class="search-btn search-go" type="submit"><i class="icon-search"></i></button>
+                    <button class="cancel-btn" type="button">取消</button>
+                </div>
+            </form>
+        </div>
+        <nav class="nav-menu">
+            <ul class="nav-menu-items">
+                <li class="nav-menu-item"><a href="/" class="nav-link white" title="首页"><i class="icon-home"></i>首页</a></li>
+                <li class="nav-menu-item"><a href="/list/1/list.html" class="white" title="电影"><i class="icon-cate-dy"></i>电影</a></li>
+                <li class="nav-menu-item"><a href="/list/2/list.html" class="white " title="电视"><i class="icon-cate-ds"></i>电视</a></li>
+                <li class="nav-menu-item"><a href="/list/3/list.html" class="white " title="综艺"><i class="icon-cate-zy"></i>综艺</a></li>
+                <li class="nav-menu-item"><a href="/list/4/list.html" class="white " title="动漫"><i class="icon-cate-dm"></i>动漫</a></li>
+                <li class="space-line-bold white "></li>
+                <li class="nav-menu-item drop">
+					<span class="nav-menu-icon">
+                        <i class="icon-watch-history  white "></i>
+                    </span>
+                    <div class="drop-content drop-history">
+                        <div class="drop-content-box">
+                            <ul class="drop-content-items" id="history">
+                                <li class="list-item list-item-title">
+                                    <a href="" class="playlist historyclean">
+                                        <i class="icon-clear"></i>
+                                    </a>
+                                    <strong>我的观影记录</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="shortcuts-mobile-overlay"></div>
+                </li>
+                <li class="space-line-bold"></li>
+                <li class="nav-menu-item drop">
+					<span class="nav-menu-icon">
+                        <i class="icon-all" style="color: #fff;"></i>
+                    </span>
+                    <div class="drop-content sub-block">
+                        <div class="drop-content-box grid-box">
+                            <ul class="drop-content-items grid-items">
+                                <li class="grid-item"><a href="/"><i class="icon-home"></i><div class="grid-item-name" title="首页">首页</div></a></li>
+                                <li class="grid-item"><a href="/list/1/list.html"><i class="icon-cate-dy"></i><div class="grid-item-name" title="电影">电影</div></a></li>
+                                <li class="grid-item"><a href="/list/2/list.html"><i class="icon-cate-ds"></i><div class="grid-item-name" title="电视">电视</div></a></li>
+                                <li class="grid-item"><a href="/list/3/list.html"><i class="icon-cate-zy"></i><div class="grid-item-name" title="综艺">综艺</div></a></li>
+                                <li class="grid-item"><a href="/list/4/list.html"><i class="icon-cate-dm"></i><div class="grid-item-name" title="动漫">动漫</div></a></li>
+                                <li class="grid-item grid-more">
+                                    <a class="grid-more-link"  href="/list/1/list.html" title="查看全部影片">
+                                        <div class="grid-item-name">全部影片</div>
+                                    </a>
+                                </li>
+                                <!--                                <li class="grid-item grid-more android">-->
+                                <!--                                    <a href="/" class="grid-more-link" title="下载APP">-->
+                                <!--                                        <div class="grid-item-name">下载客户端</div>-->
+                                <!--                                    </a>-->
+                                <!--                                </li>-->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="shortcuts-mobile-overlay"></div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+{{end}}
+{{define "content"}}
+<main id="main" class="wrapper">
+    <div class="content">
+        <div class="page-heading">
+            <h1 class="page-title">影片库</h1>
+            <div class="box">
+                <div class="library-box library-box-first scroll-box">
+                    <div class="scroll-content">
+                        <div class="library-list">
+                            {{range $key,$value:=.pids}}
+                            <a href="/list/{{$value.Id}}/list.html" class="library-item {{if eq $.nowpid $value.Id}}selected{{end}}" title="{{$value.Name}}片库">{{$value.Name}}</a>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+                <div class="library-box scroll-box">
+                    <div class="scroll-content">
+                        <a class="library-item library-item-first {{if eq .nowkind .nowpid}}selected{{end}}" href="/list/{{listparams .nowpid .nowarea .nowyear .nowlang .nowsort 1 35}}/list.html">全部</a>
+                        <div class="library-list">
+                            {{range $key,$value:=.kinds}}
+                            <a class="library-item {{if eq $.nowkind $value.Id}}selected{{end}}" href="/list/{{listparams $value.Id $.nowarea $.nowyear $.nowlang $.nowsort 1 35}}/list.html" title="{$value.Name}}">{{$value.Name}}</a>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+                <div class="library-box scroll-box">
+                    <div class="scroll-content">
+                        <a class="library-item library-item-first {{if eq .nowarea ""}}selected{{end}}" href="/list/{{listparams .nowkind "" .nowyear .nowlang .nowsort 1 35}}/list.html">全部</a>
+                        <div class="library-list">
+                            {{range $key,$value:=.areas}}
+                            <a class="library-item {{if eq $.nowarea $value}}selected{{end}}" href="/list/{{listparams $.nowkind $value $.nowyear $.nowlang $.nowsort 1 35}}/list.html" title="{{$value}}">{{$value}}</a>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+                <div class="library-box scroll-box">
+                    <div class="scroll-content">
+                        <a class="library-item library-item-first {{if eq .nowlang ""}}selected{{end}}" href="/list/{{listparams .nowkind .nowarea .nowyear "" .nowsort 1 35}}/list.html">全部</a>
+                        <div class="library-list">
+                            {{range $key,$value:=.langs}}
+                            <a class="library-item {{if eq $.nowlang $value}}selected{{end}}" href="/list/{{listparams $.nowkind $.nowarea $.nowyear $value $.nowsort 1 35}}/list.html" title="{{$value}}">{{$value}}</a>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+                <div class="library-box scroll-box">
+                    <div class="scroll-content">
+                        <a class="library-item library-item-first {{if eq .nowyear ""}}selected{{end}}" href="/list/{{listparams .nowkind .nowarea "" .nowlang .nowsort 1 35}}/list.html">全部</a>
+                        <div class="library-list">
+                            {{range $key,$value:=.years}}
+                            <a class="library-item {{if eq $.nowyear $value}}selected{{end}}" href="/list/{{listparams $.nowkind $.nowarea $value $.nowlang $.nowsort 1 35}}/list.html" title="{{$value}}">{{$value}}</a>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="library-box">
+                <h2 class="library-stat">影片库为你选出<span class="important mac_total">{{.count}}</span>部影片</h2>
+                </div>
+            </div>
+
+        </div>
+        <div class="module">
+            <div class="module-list">
+                <div class="module-items">
+                    {{range .videolist}}
+                    <div class="module-item">
+                        <div class="module-item-cover">
+                            <div class="module-item-pic">
+                                <a href="/play/{{.Id}}/play.html" title="{{.Name}}" >
+                                <i class="icon-play"></i>
+                                </a>
+                                <img class="lazy lazyloaded"  data-src="{{.Pic}}" src="{{.Pic}}"  alt="{{.Name}}">
+                                <div class="loading"></div>
+                            </div>
+                            <div class="module-item-caption">
+                                <span>{{.Score}}</span>
+                                <span class="video-class">{{.Tags}}</span>
+                                <span>{{.Note}}</span>
+                            </div>
+                            <div class="module-item-content">
+                                <div class="module-item-style video-name">
+                                    <a href="/play/{{.Id}}/play.html">{{.Name}}</a>
+                                </div>
+                                <div class="module-item-style video-tag">{{.Tags}}</div>
+                                <div class="module-item-style video-text"> {{.Note}}</div>
+                            </div>
+                        </div>
+                        <div class="module-item-titlebox">
+                            <a href="/play/{{.Id}}/play.html" class="module-item-title" title="">{{.Name}}</a>
+                        </div>
+                        <div class="module-item-text">{{.Actor}}</div>
+                    </div>
+                   {{end}}
+                </div>
+            </div>
+            <div class="module-footer">
+                <div id="page">
+                    <a href="/list/{{listparams .nowkind .nowarea .nowyear .nowlang .nowsort 1 35}}/list.html" class="page-number page-previous" title="首页">首页</a>
+                    <a href="/list/{{prevpage .nowkind .nowarea .nowyear .nowlang .nowsort .nowpage 35}}/list.html" class="page-number page-previous" title="上一页">上一页</a>
+                    {{$pages:=pages .nowpage 35 .count 5}}
+                    {{range $pages}}
+                    {{if eq $.nowpage .}}
+                    <span class="page-number page-current display">{{.}}</span>
+                    {{else}}
+                    <a href="/list/{{listparams $.nowkind $.nowarea $.nowyear $.nowlang $.nowsort . 35}}/list.html" class="page-number display" title="第{{.}}页">{{.}}</a>
+                    {{end}}
+                    {{end}}
+                    <a href="/list/{{nextpage .nowkind .nowarea .nowyear .nowlang .nowsort .nowpage 35 .count}}/list.html" class="page-number page-next" title="下一页">下一页</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{{end}}
+{{define "js"}}{{end}}

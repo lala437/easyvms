@@ -1,0 +1,138 @@
+{{define "css"}}{{end}}
+{{define "content"}}
+    <div class="layui-layout layui-layout-admin">
+        <!-- 头部 -->
+        <div class="layui-header">
+            <div class="layui-logo">
+                <img src="https://s1.ax1x.com/2022/05/13/OsycPe.png" style="height: 50px"/>
+            </div>
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item" lay-unselect>
+                    <a ew-event="flexible" title="侧边伸缩"><i class="layui-icon layui-icon-shrink-right"></i></a>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a ew-event="refresh" title="刷新"><i class="layui-icon layui-icon-refresh-3"></i></a>
+                </li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item" lay-unselect>
+                    <a>
+                        <img src="{{evasset "admin/asset/images/head.jpg"}}" class="layui-nav-img">
+                        <cite>{{.user}}</cite>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd lay-unselect><a href="javascript:void(0)" id="changepass">修改密码</a></dd>
+                        <dd lay-unselect><a ew-event="logout" data-url="{{"logout"|adminurl}}">退出</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a ew-event="theme" title="主题" data-url="/"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 侧边栏 -->
+        <div class="layui-side">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree arrow2" lay-filter="admin-side-nav" lay-shrink="_all">
+                    <li class="layui-nav-item">
+                        <a lay-href="{{"workspace"|adminurl}}"><i class="layui-icon layui-icon-home"></i>&emsp;<cite>主页</cite></a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a><i class="layui-icon layui-icon-set"></i>&emsp;<cite>基础管理</cite></a>
+                        <dl class="layui-nav-child">
+                            <dd><a lay-href="{{"config"|adminurl}}">网站配置</a></dd>
+                            <dd><a lay-href="{{"banner"|adminurl}}">轮播列表</a></dd>
+                            <dd><a lay-href="{{"link"|adminurl}}">友链列表</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a><i class="layui-icon layui-icon-video"></i>&emsp;<cite>视频管理</cite></a>
+                        <dl class="layui-nav-child">
+<!--                            <dd><a lay-href="#">分类配置</a></dd>-->
+                            <dd><a lay-href="{{"player"|adminurl}}">播放器配置</a></dd>
+                            <dd><a lay-href="{{"video"|adminurl}}">视频列表</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a><i class="layui-icon layui-icon-console"></i>&emsp;<cite>资源管理</cite></a>
+                        <dl class="layui-nav-child">
+                            <dd><a lay-href="{{"collect"|adminurl}}">资源采集</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="/"><i class="layui-icon layui-icon-layer"></i>&emsp;<cite>回到首页</cite></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主体部分 -->
+        <div class="layui-body"></div>
+        <!-- 底部 -->
+        <div class="layui-footer layui-text">
+            copyright © 2022 <a href="http://www.easyvms.com" target="_blank">EasyVms</a> all rights reserved.
+            <span class="pull-right"></span>
+        </div>
+    </div>
+
+    <!-- 加载动画 -->
+    <div class="page-loading">
+        <div class="rubik-loader"></div>
+    </div>
+<script type="text/html" id="DataFormView">
+    <form class="layui-form model-form layui-row" id="DataForm" lay-filter="DataForm" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码:</label>
+            <div class="layui-input-block">
+                <input type="text" name="password" lay-verify="required" autocomplete="off" placeholder="请输入新密码" class="layui-input">
+            </div>
+        </div>
+    </form>
+</script>
+{{end}}
+{{define "js"}}
+    <script>
+        layui.use(['index','form','admin'], function () {
+            var $ = layui.jquery;
+            var admin = layui.admin;
+            var form = layui.form;
+            var index = layui.index;
+
+            // 默认加载主页
+            index.loadHome({
+                menuPath: '{{ "workspace"|adminurl }}',
+                menuName: '<i class="layui-icon layui-icon-home"></i>'
+            });
+
+            $('#changepass').click(function() {
+                layer.open({
+                    type: 1,
+                    title: "修改账号密码",
+                    area: ['auto', 'auto'],
+                    offset: 'auto',
+                    content: $('#DataFormView').html(),
+                    btn: ["确认", "取消"],
+                    scrollbar: false,
+                    success: function (layero, dIndex) {
+                        $(layero).children('.layui-layer-content').css('overflow', 'visible');
+                        admin.modelForm(layero, 'DataFormSubmit', 'DataForm');
+                        form.render();
+                    }
+                });
+            })
+
+            form.on('submit(DataFormSubmit)', function (obj) {
+                let data =obj.field;
+                layer.confirm("确认提交?",function (index){
+                    admin.req("\/easyvms\/changepass?_time=1652704299074244626",{data:data},function (res){
+                        layer.msg(res.msg)
+                    },"post")
+                    layer.close(index)
+                })
+                return false
+            });
+        });
+    </script>
+{{end}}
+

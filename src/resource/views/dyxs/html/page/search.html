@@ -1,0 +1,129 @@
+{{define "seokey"}}
+<title>{{easyvms "name"}}-正在搜索{{.keyword}}</title>
+<meta name="keywords" content="{{.keyword}}高清观看,{{.keyword}}在线播放" />
+<meta name="description" content="{{.keyword}}高清观看,{{.keyword}}在线播放" />
+{{end}}
+{{define "css"}}
+<style>
+    .desover{
+        text-overflow:-o-ellipsis-lastline;
+        overflow:hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+</style>
+{{end}}
+{{define "header"}}
+<body class="search page">
+<header id="header" class="wrapper">
+    <div class="nav content">
+        <div class="brand"><a href="/" class="logo" title="{{easyvms "name"}}"><img src="{{easyvms "logo"}}" alt="{{easyvms "name"}}"></a></div>
+        <div class="nav-search"></div>
+        <nav class="nav-menu">
+            <ul class="nav-menu-items">
+                <li class="nav-menu-item "><a href="/" title="{{easyvms "name"}}首页"><i class="icon-home"></i>首页</a></li>
+                <li class="nav-menu-item"><a href="/list/1/list.html" class="white " title="电影"><i class="icon-cate-dy"></i>电影</a></li>
+                <li class="nav-menu-item"><a href="/list/2/list.html" class="white " title="电视"><i class="icon-cate-ds"></i>电视</a></li>
+                <li class="nav-menu-item"><a href="/list/3/list.html" class="white " title="综艺"><i class="icon-cate-zy"></i>综艺</a></li>
+                <li class="nav-menu-item"><a href="/list/4/list.html" class="white " title="动漫"><i class="icon-cate-dm"></i>动漫</a></li>
+                <li class="space-line-bold"></li>
+                <li class="nav-menu-item drop"><span class="nav-menu-icon"><i class="icon-all"></i></span>
+                    <div class="drop-content sub-block">
+                        <div class="drop-content-box grid-box"><ul class="drop-content-items grid-items">
+                                <li class="grid-item"><a href="/"><i class="icon-home"></i>
+                                    <div class="grid-item-name" title="首页">首页</div>
+                        </a></li>
+                            <li class="grid-item"><a href="/list/1/list.html"><i class="icon-cate-dy"></i><div class="grid-item-name" title="电影">电影</div></a></li>
+                            <li class="grid-item"><a href="/list/2/list.html"><i class="icon-cate-ds"></i><div class="grid-item-name" title="电视">电视</div></a></li>
+                            <li class="grid-item"><a href="/list/3/list.html"><i class="icon-cate-zy"></i><div class="grid-item-name" title="综艺">综艺</div></a></li>
+                            <li class="grid-item"><a href="/list/4/list.html"><i class="icon-cate-dm"></i><div class="grid-item-name" title="动漫">动漫</div></a></li>
+                            <li class="grid-item grid-more">
+                    <a class="grid-more-link"  href="/list/1/list.html" title="查看全部影片">
+                    <div class="grid-item-name">全部影片</div>
+                    </a>
+                </li>
+<!--                <li class="grid-item grid-more android">-->
+<!--                    <a href="/" class="grid-more-link" title="下载APP">-->
+<!--                        <div class="grid-item-name">下载客户端</div>-->
+<!--                    </a>-->
+<!--                </li>-->
+            </ul>
+    </div>
+    </div>
+    <div class="shortcuts-mobile-overlay"></div>
+    </li>
+    <li class="space-line-bold"></li>
+    <li class="nav-menu-item drop"><span class="nav-menu-icon"><i class="icon-watch-history"></i></span>
+        <div class="drop-content drop-history">
+            <div class="drop-content-box">
+                <ul class="drop-content-items" id="history"><li class="list-item list-item-title"><a href="" class="playlist historyclean"><i class="icon-clear"></i></a><strong>我的观影记录</strong></li></ul>
+            </div>
+        </div>
+        <div class="shortcuts-mobile-overlay"></div>
+    </li>
+    </ul>
+    </nav>
+    </div>
+</header>
+{{end}}
+{{define "content"}}
+<main id="main" class="wrapper">
+    <div class="content">
+        <div id="search-content">
+            <form action="/search">
+            <div class="search-box">
+                <input class="search-input ac_wd" id="txtKeywords" type="text" name="cz" value="{{.keyword}}" autocomplete="off" placeholder="搜索电影、电视剧、综艺、动漫">
+                <button class="search-btn search-go" type="submit"><i class="icon-search"></i></button>
+                <button class="cancel-btn" type="button">取消</button>
+            </div>
+            </form>
+            <div class="search-stat">
+                <h1></h1>
+                <h2>搜索"{{.keyword}}"找到 <strong class="mac_total">{{.count}}</strong>部影视作品</h2>
+            </div>
+        </div>
+        <div class="module">
+            <div class="module-list">
+                <div class="module-items">
+                    {{range .video}}
+                    <div class="module-search-item">
+                        <div class="video-cover">
+                            <div class="module-item-cover">
+                                <div class="module-item-pic"><a href="/play/{{.Id}}/play.html" title="立刻播放{{.Name}}"><i class="icon-play"></i></a><img class="lazy lazyload" data-src="{{.Pic}}" src="{{.Pic}}" alt="{{.Name}}">
+                                    <div class="loading"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-info-header"><a class="video-serial" href="/play/{{.Id}}/play.html"></a>
+                                <h3><a href="/play/{{.Id}}/play.html">{{.Name}}</a></h3>
+                                <div class="video-info-aux">
+                                    <a href="#" title="" class="tag-link">{{.Note}}</a>
+                                    <div class="tag-link">{{.Tags}}</div>
+                                </div>
+                            </div>
+                            <div class="video-info-main">
+                                <div class="video-info-items"><span class="video-info-itemtitle">年份：</span>
+                                    <div class="video-info-item video-info-actor">
+                                        {{.Year}}
+                                    </div>
+                                </div>
+                                <div class="video-info-items"><span class="video-info-itemtitle">剧情：</span>
+                                    <div class="video-info-item desover" >{{.Description | html}}</div>
+                                </div>
+                            </div>
+                            <div class="video-info-footer">
+                                <a href="/play/{{.Id}}/play.html" class="btn-important btn-base" title="立刻播放{{.Name}}"><i class="icon-play"></i><strong>立即播放</strong></a>
+                            </div>
+                        </div>
+                    </div>
+                  {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{{end}}
+{{define "js"}}{{end}}

@@ -1,0 +1,528 @@
+{{define "seokey"}}
+<title>{{easyvms "name"}}</title>
+<meta name="keywords" content="easyvms" />
+<meta name="description" content="easyvms" />
+{{end}}
+{{define "css"}}{{end}}
+{{define "header"}}
+<body class="homepage">
+<header id="header" class="wrapper">
+    <div class="nav">
+        <h1 class="slogan black">{{easyvms "name"}}</h1>
+        <div id="index-nav">
+            <ul class="nav-menu-items">
+                <li class="nav-menu-item"><a href="/" class="black " title="首页"><i class="icon-home"></i>首页</a></li>
+                <li class="nav-menu-item"><a href="/list/1/list.html" class="black " title="电影"><i class="icon-cate-dy"></i>电影</a></li>
+                <li class="nav-menu-item"><a href="/list/2/list.html" class="black " title="电视"><i class="icon-cate-ds"></i>电视</a></li>
+                <li class="nav-menu-item"><a href="/list/3/list.html" class="black " title="综艺"><i class="icon-cate-zy"></i>综艺</a></li>
+                <li class="nav-menu-item"><a href="/list/4/list.html" class="black " title="动漫"><i class="icon-cate-dm"></i>动漫</a></li>
+
+                <li class="space-line-bold black "></li>
+                <li class="nav-menu-item drop">
+					<span class="nav-menu-icon">
+                        <i class="icon-watch-history  black "></i>
+                    </span>
+                    <div class="drop-content drop-history">
+                        <div class="drop-content-box">
+                            <ul class="drop-content-items" id="history">
+                                <li class="list-item list-item-title">
+                                    <a href="" class="playlist historyclean">
+                                        <i class="icon-clear"></i>
+                                    </a>
+                                    <strong>我的观影记录</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="shortcuts-mobile-overlay"></div>
+                </li>
+                <li class="space-line-bold"></li>
+                <li class="nav-menu-item drop">
+					<span class="nav-menu-icon">
+                        <i class="icon-all" style="color: #000;"></i>
+                    </span>
+                    <div class="drop-content sub-block">
+                        <div class="drop-content-box grid-box">
+                            <ul class="drop-content-items grid-items">
+                                <li class="grid-item"><a href="/"><i class="icon-home"></i><div class="grid-item-name" title="首页">首页</div></a></li>
+                                <li class="grid-item"><a href="/list/1/list.html"><i class="icon-cate-dy"></i><div class="grid-item-name" title="电影">电影</div></a></li>
+                                <li class="grid-item"><a href="/list/2/list.html"><i class="icon-cate-ds"></i><div class="grid-item-name" title="电视">电视</div></a></li>
+                                <li class="grid-item"><a href="/list/3/list.html"><i class="icon-cate-zy"></i><div class="grid-item-name" title="综艺">综艺</div></a></li>
+                                <li class="grid-item"><a href="/list/4/list.html"><i class="icon-cate-dm"></i><div class="grid-item-name" title="动漫">动漫</div></a></li>
+                                <li class="grid-item grid-more">
+                                    <a class="grid-more-link"  href="/list/1/list.html" title="查看全部影片">
+                                    <div class="grid-item-name">全部影片</div>
+                                    </a>
+                                </li>
+<!--                                <li class="grid-item grid-more android">-->
+<!--                                    <a href="/" class="grid-more-link" title="下载APP">-->
+<!--                                        <div class="grid-item-name">下载客户端</div>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="shortcuts-mobile-overlay"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="search-content">
+        <div class="index-logo"><span class="logo-s"><img src="{{easyvms "logo"}}" alt="{{easyvms "name"}}"></span></div>
+        <form action="/search">
+        <div class="search-box">
+            <input class="search-input ac_wd" id="txtKeywords" type="text" name="cz" autocomplete="off" placeholder="搜索电影、电视剧、综艺、动漫">
+            <button class="search-btn search-go" type="submit"><i class="icon-search"></i></button>
+            <button class="cancel-btn" type="button">取消</button>
+        </div>
+        </form>
+    </div>
+</header>
+{{end}}
+{{define "content"}}
+<main id="index-main" class="wrapper">
+    <div class="content">
+        <script type="text/javascript"  src="{{"dyxs/asset/js/swiper-bundle.min.js"|evasset}}"></script>
+        <link rel="stylesheet" href="{{"dyxs/asset/css/swiper-bundle.min.css"|evasset}}" type="text/css">
+        <div class="swiper-container" style="margin-bottom: 20px;">
+            <div class="swiper-wrapper">
+               {{$banners:=bannerlist}}
+                {{range $banners}}
+                <div class="swiper-slide">
+                    <a class="dymr banner" href="{{.Url}}" style="background: url({{.Pic}}) center no-repeat;  background-size: cover;">
+                    <div class="txt-info">
+                        <p class="gate"><span></span></p>
+                        <p class="name">{{.Name}}</p>
+                        <p class="info"></p>
+                    </div>
+                    </a>
+                </div>
+                {{end}}
+
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+
+            <!-- 如果需要导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+        </div>
+
+
+
+<!--        <div class="index-recommend recommend-list"><a href="/" target="_blank"><div class="pc"><img src="/"></div><div class="phone"><img src="/"></div></a></div>-->
+
+        <div class="module">
+            <div class="module-heading">
+                <h2 class="module-title"><i class="icon-happy"></i> 热播榜单</h2>
+                <div class="module-tab">
+                    <label class="module-tab-name">
+                        <span class="module-tab-value">全部</span>
+                        <i class="icon-arrow-bottom"></i>
+                    </label>
+                    <div class="module-tab-items">
+                        <div class="module-tab-title">
+                            选择类型
+                            <span class="close-drop">
+								<i class="icon-close-o"></i>
+							</span>
+                        </div>
+                        <div>
+<!--                            <span class="module-tab-item tab-item selected" data-id="0" data-name="全部">全部</span>-->
+                            <span class="module-tab-item tab-item selected" data-id="dy" data-name="电影">电影</span>
+                            <span class="module-tab-item tab-item" data-id="ds" data-name="电视">电视</span>
+                            <span class="module-tab-item tab-item" data-id="zy" data-name="综艺">综艺</span>
+                            <span class="module-tab-item tab-item" data-id="dm" data-name="动漫">动漫</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="shortcuts-mobile-overlay"></div>
+            </div>
+
+            <div class="module-list module-line-list tab-list selected" id="tab-list-dy">
+              <div class="module-items scroll-box">
+                <div class="scroll-content">
+                    {{$dianying:=videolist 1 10 "view"}}
+                    {{range $dianying}}
+                    <div class="module-item">
+                        <div class="module-item-cover">
+                            <div class="module-item-pic">
+                                <a href="/play/{{.Id}}/play.html" >
+                                <i class="icon-play"></i>
+                                </a>
+                                <img class="lazy lazyloaded"  data-src="{{.Pic}}" src="{{.Pic}}"  alt="{{.Name}}">
+                                <div class="loading"></div>
+                            </div>
+                            <div class="module-item-caption">
+                                <span>{{.Note}}</span>
+                                <span class="video-class">{{.Tags}}</span>
+                                <span>{{.Year}}</span>
+                            </div>
+                            <div class="module-item-content">
+                                <div class="module-item-style video-name">
+                                    <a href="/play/{{.Id}}/play.html" title="{{.Name}}">{{.Name}}</a>
+                                </div>
+                                <div class="module-item-style video-tag">
+                                    {{.Tags}}
+                                </div>
+                                <div class="module-item-style video-text">{{.Note}}</div>
+                            </div>
+                        </div>
+                        <div class="module-item-titlebox">
+                            <a href="/play/{{.Id}}/play.html" class="module-item-title" title="{{.Name}}">{{.Name}}</a>
+                        </div>
+                        <div class="module-item-text">{{.Note}}</div>
+                    </div>
+                   {{end}}
+                </div>
+              </div>
+            </div>
+            <div class="module-list module-line-list tab-list" id="tab-list-ds">
+                <div class="module-items scroll-box">
+                    <div class="scroll-content">
+                        {{$dianying:=videolist 2 10 "view"}}
+                        {{range $dianying}}
+                        <div class="module-item">
+                            <div class="module-item-cover">
+                                <div class="module-item-pic">
+                                    <a href="/play/{{.Id}}/play.html" >
+                                        <i class="icon-play"></i>
+                                    </a>
+                                    <img class="lazy lazyloaded"  data-src="{{.Pic}}" src="{{.Pic}}"  alt="{{.Name}}">
+                                    <div class="loading"></div>
+                                </div>
+                                <div class="module-item-caption">
+                                    <span>{{.Note}}</span>
+                                    <span class="video-class">{{.Tags}}</span>
+                                    <span>{{.Year}}</span>
+                                </div>
+                                <div class="module-item-content">
+                                    <div class="module-item-style video-name">
+                                        <a href="/play/{{.Id}}/play.html" title="{{.Name}}">{{.Name}}</a>
+                                    </div>
+                                    <div class="module-item-style video-tag">
+                                        {{.Tags}}
+                                    </div>
+                                    <div class="module-item-style video-text">{{.Note}}</div>
+                                </div>
+                            </div>
+                            <div class="module-item-titlebox">
+                                <a href="/play/{{.Id}}/play.html" class="module-item-title" title="{{.Name}}">{{.Name}}</a>
+                            </div>
+                            <div class="module-item-text">{{.Note}}</div>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+            <div class="module-list module-line-list tab-list" id="tab-list-zy">
+                <div class="module-items scroll-box">
+                    <div class="scroll-content">
+                        {{$dianying:=videolist 3 10 "view"}}
+                        {{range $dianying}}
+                        <div class="module-item">
+                            <div class="module-item-cover">
+                                <div class="module-item-pic">
+                                    <a href="/play/{{.Id}}/play.html" >
+                                        <i class="icon-play"></i>
+                                    </a>
+                                    <img class="lazy lazyloaded"  data-src="{{.Pic}}" src="{{.Pic}}"  alt="{{.Name}}">
+                                    <div class="loading"></div>
+                                </div>
+                                <div class="module-item-caption">
+                                    <span>{{.Note}}</span>
+                                    <span class="video-class">{{.Tags}}</span>
+                                    <span>{{.Year}}</span>
+                                </div>
+                                <div class="module-item-content">
+                                    <div class="module-item-style video-name">
+                                        <a href="/play/{{.Id}}/play.html" title="{{.Name}}">{{.Name}}</a>
+                                    </div>
+                                    <div class="module-item-style video-tag">
+                                        {{.Tags}}
+                                    </div>
+                                    <div class="module-item-style video-text">{{.Note}}</div>
+                                </div>
+                            </div>
+                            <div class="module-item-titlebox">
+                                <a href="/play/{{.Id}}/play.html" class="module-item-title" title="{{.Name}}">{{.Name}}</a>
+                            </div>
+                            <div class="module-item-text">{{.Note}}</div>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+            <div class="module-list module-line-list tab-list" id="tab-list-dm">
+                <div class="module-items scroll-box">
+                    <div class="scroll-content">
+                        {{$dianying:=videolist 4 10 "view"}}
+                        {{range $dianying}}
+                        <div class="module-item">
+                            <div class="module-item-cover">
+                                <div class="module-item-pic">
+                                    <a href="/play/{{.Id}}/play.html" >
+                                        <i class="icon-play"></i>
+                                    </a>
+                                    <img class="lazy lazyloaded"  data-src="{{.Pic}}" src="{{.Pic}}"  alt="{{.Name}}">
+                                    <div class="loading"></div>
+                                </div>
+                                <div class="module-item-caption">
+                                    <span>{{.Note}}</span>
+                                    <span class="video-class">{{.Tags}}</span>
+                                    <span>{{.Year}}</span>
+                                </div>
+                                <div class="module-item-content">
+                                    <div class="module-item-style video-name">
+                                        <a href="/play/{{.Id}}/play.html" title="{{.Name}}">{{.Name}}</a>
+                                    </div>
+                                    <div class="module-item-style video-tag">
+                                        {{.Tags}}
+                                    </div>
+                                    <div class="module-item-style video-text">{{.Note}}</div>
+                                </div>
+                            </div>
+                            <div class="module-item-titlebox">
+                                <a href="/play/{{.Id}}/play.html" class="module-item-title" title="{{.Name}}">{{.Name}}</a>
+                            </div>
+                            <div class="module-item-text">{{.Note}}</div>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+    <div class="module">
+        <div class="module-heading">
+            <h2 class="module-title"><i class="icon-cate-dy"></i>电影</h2>
+            <a class="more" href="/list/1/list.html" title="更多电影">更多电影
+            <i class="icon-arrow-right-o"></i>
+            </a>
+        </div>
+        <div class="module-list module-lines-list">
+            <div class="module-items">
+                {{$dianying:=videolist 1 15 "updated_at"}}
+                {{range $dianying}}
+                <div class="module-item">
+                    <div class="module-item-cover">
+                        <div class="module-item-pic">
+                            <a href="/play/{{.Id}}/play.html" >
+                                <i class="icon-play"></i>
+                            </a>
+                            <img class="lazy lazyloaded"  data-src="{{.Pic}}" src="{{.Pic}}"  alt="{{.Name}}">
+                            <div class="loading"></div>
+                        </div>
+                        <div class="module-item-caption">
+                            <span>{{.Note}}</span>
+                            <span class="video-class">{{.Tags}}</span>
+                            <span>{{.Year}}</span>
+                        </div>
+                        <div class="module-item-content">
+                            <div class="module-item-style video-name">
+                                <a href="/play/{{.Id}}/play.html" title="{{.Name}}">{{.Name}}</a>
+                            </div>
+                            <div class="module-item-style video-tag">
+                                {{.Tags}}
+                            </div>
+                            <div class="module-item-style video-text">{{.Note}}</div>
+                        </div>
+                    </div>
+                    <div class="module-item-titlebox">
+                        <a href="/play/{{.Id}}/play.html" class="module-item-title" title="{{.Name}}">{{.Name}}</a>
+                    </div>
+                    <div class="module-item-text">{{.Note}}</div>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+        <div class="module">
+            <div class="module-heading">
+                <h2 class="module-title"><i class="icon-cate-ds"></i>电视</h2>
+                <a class="more" href="/list/2/list.html" title="更多电视">更多电视
+                    <i class="icon-arrow-right-o"></i>
+                </a>
+            </div>
+            <div class="module-list module-lines-list">
+                <div class="module-items">
+                    {{$dianshi:=videolist 2 15 "updated_at"}}
+                    {{range $dianshi}}
+                    <div class="module-item">
+                        <div class="module-item-cover">
+                            <div class="module-item-pic">
+                                <a href="/play/{{.Id}}/play.html" >
+                                    <i class="icon-play"></i>
+                                </a>
+                                <img class="lazy lazyloaded"  data-src="{{.Pic}}" src="{{.Pic}}"  alt="{{.Name}}">
+                                <div class="loading"></div>
+                            </div>
+                            <div class="module-item-caption">
+                                <span>{{.Note}}</span>
+                                <span class="video-class">{{.Tags}}</span>
+                                <span>{{.Year}}</span>
+                            </div>
+                            <div class="module-item-content">
+                                <div class="module-item-style video-name">
+                                    <a href="/play/{{.Id}}/play.html" title="{{.Name}}">{{.Name}}</a>
+                                </div>
+                                <div class="module-item-style video-tag">
+                                    {{.Tags}}
+                                </div>
+                                <div class="module-item-style video-text">{{.Note}}</div>
+                            </div>
+                        </div>
+                        <div class="module-item-titlebox">
+                            <a href="/play/{{.Id}}/play.html" class="module-item-title" title="{{.Name}}">{{.Name}}</a>
+                        </div>
+                        <div class="module-item-text">{{.Note}}</div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-heading">
+                <h2 class="module-title"><i class="icon-cate-zy"></i>综艺</h2>
+                <a class="more" href="/list/3/list.html" title="更多综艺">更多综艺
+                    <i class="icon-arrow-right-o"></i>
+                </a>
+            </div>
+            <div class="module-list module-lines-list">
+                <div class="module-items">
+                    {{$zongyi:=videolist 3 15 "updated_at"}}
+                    {{range $zongyi}}
+                    <div class="module-item">
+                        <div class="module-item-cover">
+                            <div class="module-item-pic">
+                                <a href="/play/{{.Id}}/play.html" >
+                                    <i class="icon-play"></i>
+                                </a>
+                                <img class="lazy lazyloaded"  data-src="{{.Pic}}" src="{{.Pic}}"  alt="{{.Name}}">
+                                <div class="loading"></div>
+                            </div>
+                            <div class="module-item-caption">
+                                <span>{{.Note}}</span>
+                                <span class="video-class">{{.Tags}}</span>
+                                <span>{{.Year}}</span>
+                            </div>
+                            <div class="module-item-content">
+                                <div class="module-item-style video-name">
+                                    <a href="/play/{{.Id}}/play.html" title="{{.Name}}">{{.Name}}</a>
+                                </div>
+                                <div class="module-item-style video-tag">
+                                    {{.Tags}}
+                                </div>
+                                <div class="module-item-style video-text">{{.Note}}</div>
+                            </div>
+                        </div>
+                        <div class="module-item-titlebox">
+                            <a href="/play/{{.Id}}/play.html" class="module-item-title" title="{{.Name}}">{{.Name}}</a>
+                        </div>
+                        <div class="module-item-text">{{.Note}}</div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-heading">
+                <h2 class="module-title"><i class="icon-cate-dm"></i>动漫</h2>
+                <a class="more" href="/list/4/list.html" title="更多动漫">更多动漫
+                    <i class="icon-arrow-right-o"></i>
+                </a>
+            </div>
+            <div class="module-list module-lines-list">
+                <div class="module-items">
+                    {{$dongman:=videolist 4 15 "updated_at"}}
+                    {{range $dongman}}
+                    <div class="module-item">
+                        <div class="module-item-cover">
+                            <div class="module-item-pic">
+                                <a href="/play/{{.Id}}/play.html" >
+                                    <i class="icon-play"></i>
+                                </a>
+                                <img class="lazy lazyloaded"  data-src="{{.Pic}}" src="{{.Pic}}"  alt="{{.Name}}">
+                                <div class="loading"></div>
+                            </div>
+                            <div class="module-item-caption">
+                                <span>{{.Note}}</span>
+                                <span class="video-class">{{.Tags}}</span>
+                                <span>{{.Year}}</span>
+                            </div>
+                            <div class="module-item-content">
+                                <div class="module-item-style video-name">
+                                    <a href="/play/{{.Id}}/play.html" title="{{.Name}}">{{.Name}}</a>
+                                </div>
+                                <div class="module-item-style video-tag">
+                                    {{.Tags}}
+                                </div>
+                                <div class="module-item-style video-text">{{.Note}}</div>
+                            </div>
+                        </div>
+                        <div class="module-item-titlebox">
+                            <a href="/play/{{.Id}}/play.html" class="module-item-title" title="{{.Name}}">{{.Name}}</a>
+                        </div>
+                        <div class="module-item-text">{{.Note}}</div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+<div id="friendlink" class="wrapper hidden-xs">
+    <div class="content">
+        <h2>友情链接：</h2>
+        {{$links:=linklist}}
+        {{range $links}}
+        <a href="{{.Url}}" target="_blank" title="{{.Name}}">{{.Name}}</a>
+        {{end}}
+    </div>
+</div>
+{{end}}
+
+{{define "js"}}
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        //direction: 'vertical', // 垂直切换选项
+        direction: 'horizontal',//水平方向
+        loop: true, // 循环模式选项
+        autoplay: {
+            delay: 3000,
+            stopOnLastSlide: false,
+            disableOnInteraction: false,//改为false,点击按钮可以继续动
+        },
+
+        // 如果需要分页器
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+
+        // 如果需要前进后退按钮
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        // 如果需要滚动条
+        scrollbar: {
+            el: '.swiper-scrollbar',
+        },
+    })
+
+</script>
+<style type="text/css">
+    .dymr{display: block; position: relative; padding-top: 150%;  background-size: cover;    border-radius: 8px;}
+    .dymr.banner{ padding-top: 30%;  }
+    @media (max-width:767px){.dymr.banner{ padding-top: 45%;}}
+</style>
+{{end}}
+</body>
+</html>

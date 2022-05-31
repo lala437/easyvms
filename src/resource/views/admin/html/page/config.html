@@ -1,0 +1,117 @@
+{{define "css"}}{{end}}
+{{ define "content" }}
+<body class="layui-container">
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md12">
+        <div class="layui-card" style="margin-top: 10px;">
+            <div class="layui-card-header"></div>
+            <div class="layui-card-body layui-row layui-col-space10">
+                <form class="layui-form" lay-filter="DataForm" action="javascript:void(0);">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">名称:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="请输入网站名称" value="{{easyvms "name"}}"
+                                   class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">LOGO:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="logo" lay-verify="required" value="{{easyvms "logo"}}" placeholder="请输入LOGO" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">ICP:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="icp" lay-verify="required" value="{{easyvms "icp"}}" hover
+                                   placeholder="请输入ICP" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Email:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" lay-verify="required" value="{{easyvms "email"}}" hover
+                                   placeholder="请输入Email" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">公告:</label>
+                        <div class="layui-input-block">
+                                <textarea name="notice" placeholder="请输入网站公告" class="layui-textarea">{{easyvms "notice"}}</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">统计:</label>
+                        <div class="layui-input-block">
+                                <textarea name="tongji" placeholder="请输入统计代码" class="layui-textarea">{{easyvms "tongji"}}</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">模板:</label>
+                        <div class="layui-input-block">
+                            {{$template:=easyvms "template"}}
+                            <select name="template" lay-verify="" lay-filter="template">
+                                <option value="dyxs" {{if eq "dyxs" $template}}selected{{end}} >电影先生</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">全站缓存:</label>
+                        <div class="layui-input-block">
+                            {{$cache:=easyvms "cache"}}
+                            <input type="checkbox" name="cache" lay-skin="switch" lay-text="开启|关闭" {{if eq "1" $cache}}checked{{end}}>&nbsp;&nbsp;
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <button class="layui-btn layui-btn-normal" id="BtnAction" lay-filter="DataFormSubmit" lay-submit>提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+{{end}}
+{{define "js"}}
+<script>
+    layui.use(['form', 'admin'], function () {
+        var form = layui.form;
+        var $ = layui.jquery;
+        var admin = layui.admin;
+
+        form.on("select(template)",function () {
+            layer.msg("切换模板会清理全部缓存,请知悉")
+        })
+
+        form.on('submit(DataFormSubmit)', function (data) {
+            admin.btnLoading('#BtnAction')
+            if (data.field.cache == "on") {
+                data.field.cache = 1
+            } else {
+                data.field.cache = 0
+            }
+            $.ajax({
+                type: "post",
+                url: "{{"config"|adminurl}}",
+                data: {data:data.field},
+                dataType: "json",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                success: function (res) {
+                    admin.btnLoading('#BtnAction',false)
+                    if (res.status == 200) {
+                        layer.msg(res.msg)
+                    } else {
+                        layer.msg("更新失败")
+                    }
+                },
+                error: function () {
+                    admin.btnLoading('#BtnAction',false)
+                    layer.msg("更新失败")
+                }
+            })
+            return false
+        });
+    });
+</script>
+{{end}}

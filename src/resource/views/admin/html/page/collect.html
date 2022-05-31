@@ -1,0 +1,351 @@
+{{define "css"}}{{end}}
+{{ define "content" }}
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <button id="AddDataBtn" class="layui-btn">添加资源站</button>
+        </div>
+        <div class="layui-card-body">
+            <table id="DataTable" lay-filter="DataTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="DataFormView">
+    <form id="DataForm" lay-filter="DataForm" class="layui-form model-form layui-row">
+        <input name="id" type="hidden"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required">名称:</label>
+            <div class="layui-input-block">
+                <input name="name" placeholder="请输入资源站名称" class="layui-input" lay-verType="tips" lay-verify="required"
+                       required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required">API:</label>
+            <div class="layui-input-block">
+                <input name="api" placeholder="请输入采集API地址" class="layui-input" lay-verType="tips" lay-verify="required"
+                       required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required">定时时间:</label>
+            <div class="layui-input-block">
+                <input name="cron" placeholder="请输入定时时间,留空则不需要定时执行" class="layui-input" id="timedate" lay-verType="tips"/>
+            </div>
+        </div>
+        <div class="layui-form-item text-right model-form-footer">
+            <button class="layui-btn" id="BtnAction" lay-filter="DataFormSubmit" lay-submit>提交</button>
+            <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        </div>
+    </form>
+</script>
+<!-- 表格操作列 -->
+<script type="text/html" id="tableBar">
+    <div class="layui-btn-fluid">
+        <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="bindclass"><i class="layui-icon">&#xe653;</i>绑定分类</a>
+        <a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="exccollect"><i class="layui-icon">&#xe62c;</i>执行/查看进度</a>
+        <a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
+    </div>
+</script>
+<script type="text/html" id="bindclass">
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15" id="bindlist"></div>
+  </div>
+</script>
+<script type="text/html" id="localclass">
+        <form id="BindDataForm" lay-filter="BindDataForm" class="layui-form model-form layui-row">
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">本地分类:</label>
+                <div class="layui-input-block" id="localid">
+                    <select name="localid" lay-verType="tips" lay-search lay-verify="required" required id="locallist">
+
+                    </select>
+                </div>
+            </div>
+        </form>
+</script>
+<script type="text/html" id="process">
+    <div class="layui-fluid">
+        <pre style="word-wrap: break-word;white-space: pre-wrap;height: 300px;color: white" id="processtext" ></pre>
+    </div>
+</script>
+{{end}}
+{{define "js"}}
+<script>
+    layui.use(['layer', 'admin', 'form', 'table','laydate'], function () {
+        var $ = layui.jquery;
+        var laydate = layui.laydate
+        var layer = layui.layer;
+        var admin = layui.admin;
+        var form = layui.form;
+        var table = layui.table;
+        var job, action;
+
+        // 渲染表格
+        var insTb = table.render({
+            elem: '#DataTable',
+            method: "post",
+            url: "{{"collect"|adminurl}}&action=list",
+            page: true,
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            cellMinWidth: 100,
+            cols: [[
+                {field: 'Name', align: "center", title: '名称'},
+                {field: 'Api', align: "center", title: 'API'},
+                {field: 'Type', align: "center", title: '类型'},
+                {field: 'Cron', align: "center", title: '定时时间'},
+                {field: 'Time', align: "center", title: '上次完成时间',templet:function (dd){
+                               return crtTimeFtt(dd.Time)
+                    }},
+                {title: '操作', width: 400, toolbar: '#tableBar', align: "center"}
+            ]],
+            size: 'lg',
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 15,
+        });
+
+        // 添加采集
+        $('#AddDataBtn').click(function () {
+            action = 'add';
+            jobaddorupdate('add');
+        });
+
+        //打开添加或者编辑视频窗口
+        function jobaddorupdate(type, dataobj = null) {
+            admin.open({
+                type: 1,
+                scrollbar: false,
+                title: type == 'add' ? '添加资源站' : "编辑资源站",
+                area: ['auto', 'auto'],
+                offset: 'auto',
+                fixed: true,
+                content: $('#DataFormView').html(),
+                success: function (layero, dIndex) {
+                    $(layero).children('.layui-layer-content').css('overflow', 'visible');
+                    laydate.render(
+                        {
+                            elem: '#timedate',
+                            type: "time"
+                        }
+                    )
+                    if (type == "update") {
+                        let data = dataobj.data;
+                        form.val("DataForm", {
+                            id: data.Id,
+                            name: data.Name,
+                            api: data.Api,
+                            cron: data.Cron,
+                        })
+                    }
+                    form.render();
+                }
+            });
+        }
+
+        //提交数据
+        form.on("submit(DataFormSubmit)", function (obj) {
+            layer.confirm("确认提交?", function (index) {
+                layer.load(2);
+                let data = obj.field;
+                let url = "{{"collect"|adminurl}}&action=" + action;
+                admin.req(url, {data: data}, function (res) {
+                    layer.closeAll('loading');
+                    layer.msg(res.msg)
+                    switch (action) {
+                        case "add":
+                            if (res.status == 200) {
+                                table.reload('DataTable')
+                            }
+                            break;
+                        case "update":
+                            if (res.status == 200) {
+                                job.update({
+                                    Name: data.name,
+                                    Api: data.api,
+                                    Cron: data.cron,
+                                })
+                            }
+                            break;
+
+                    }
+                }, 'post')
+            })
+            return false;
+        })
+
+        // 工具条点击事件
+        table.on('tool(DataTable)', function (obj) {
+            let url  = ""
+            let data = obj.data;
+            let layEvent = obj.event;
+            switch (layEvent) {
+                case "bindclass":
+                    layer.load(2)
+                    url = "{{"collect"|adminurl}}&action=bindclass";
+                    admin.req(url, {data: {id: data.Id}}, function (res) {
+                        layer.closeAll('loading');
+                        if (res.status == 200) {
+                             bindclass(data,res)
+                        } else {
+                            layer.msg(res.msg);
+                        }
+                    }, 'post')
+                    break;
+                case "exccollect":
+                    layer.load(2)
+                    url = "{{"collect"|adminurl}}&action=exccollect";
+                    layer.confirm("请选择操作",{btn:["执行采集","查看进度","取消"]},function (index){
+                        admin.req(url, {data: {id: data.Id}}, function (res) {
+                            if (res.status == 200 || res.status == 10001) {
+                                process(data)
+                            } else if (res.status == 10002) {
+                                layer.confirm("距离上次采集完成不满十分钟,是否需要继续强制执行", {btn:["强制执行", "查看进度", "取消"]}, function (index) {
+                                    admin.req(url, {data: {id: data.Id, force: 1}}, function (res) {
+                                        if (res.status == 200) {
+                                            process(data)
+                                        } else {
+                                            layer.msg(res.msg)
+                                        }
+                                    },"post")
+                                    layer.close(index)
+                                }, function (index) {
+                                    layer.close(index)
+                                    process(data)
+                                })
+                            }else {
+                                layer.msg(res.msg)
+                            }
+                        }, 'post')
+                        layer.close(index)
+                    },function (index){
+                        process(data)
+                        layer.close(index)
+                    })
+                    layer.closeAll("loading")
+                    break;
+                case "edit":
+                    job = obj;
+                    action = "update";
+                    jobaddorupdate('update', obj)
+                    break;
+                case "delete":
+                    layer.confirm("确认删除?", function (index) {
+                        layer.load(2);
+                        url = "{{"collect"|adminurl}}&action=delete";
+                        admin.req(url, {data: {id: data.Id}}, function (res) {
+                            layer.closeAll('loading');
+                            if (res.status == 200) {
+                                obj.del();
+                            }
+                            layer.msg(res.msg);
+                        }, 'post')
+                    });
+                    break;
+            }
+        });
+
+        function process(data){
+            let timer;
+            let prev = 0;
+            admin.open({
+                type: 1,
+                title: data.Name+"-采集进度",
+                scrollbar: false,
+                area: ['500px', 'auto'],
+                offset: 'auto',
+                content: $('#process').html(),
+                success: function (layero, dIndex){
+                    let wd = $(layero).children('.layui-layer-content')
+                    wd.css("background-color","black")
+                    $('#processtext').append("正在获取进度中/进度每秒刷新一次\n")
+                    timer = setInterval(function (){
+                        let url = "{{"collect"|adminurl}}&action=readprocess";
+                        admin.req(url, {data: {id: data.Id,prev:prev}}, function (res) {
+                            if (res.status==200){
+                                $('#processtext').append(res.data)
+                                prev = res.prev
+                                wd.scrollTop(wd[0].scrollHeight)
+                            }
+                        },"post")
+                    },1000)
+                },
+                end:function (){
+                    clearInterval(timer)
+                }
+            });
+        }
+
+        //绑定分类
+        function bindclass(source, res) {
+            admin.open({
+                type: 1,
+                title: source.Name + "-绑定分类",
+                scrollbar: false,
+                area: ['600px', '400px'],
+                offset: 'auto',
+                content: $('#bindclass').html(),
+                success: function (layero, dIndex) {
+                    let html = ""
+                    $.each(res.bindlist, function (index, item) {
+                        html += '<div class="layui-col-xs6 layui-col-sm4 layui-col-md3"><a href="javascript:void(0)">' + item.value + '</a><a title="点击绑定分类" href="javascript:;" class="bind" data-id="' + index + '">' + (item.status === "success" ? '<i class="layui-icon" style="color:#080">&#xe605;</i>' : '<i class="layui-icon" style="color:red">&#x1006;</i>') + '</a></div>\n'
+                    })
+                    $('#bindlist').html(html)
+                    $('.bind').click(function (event) {
+                        let left = event.clientX + document.body.scrollLeft - 150;
+                        if (left < 0) left = 10;
+                        let top = event.clientY + document.body.scrollTop + 20;
+                        let zycid = $(this).attr('data-id');
+                        let _this = $(this);
+                        admin.open({
+                            type: 1,
+                            title: "",
+                            scrollbar: false,
+                            area: ['220px', '120px'],
+                            offset: [top + 'px', left + 'px'],
+                            closeBtn: 0,
+                            shade: 0,
+                            content: $('#localclass').html(),
+                            btn: ['绑定', '取消'],
+                            success: function (layero, dIndex) {
+                                $(layero).children('.layui-layer-content').css('overflow', 'visible');
+                                admin.modelForm(layero, 'BindDataFormSubmit', 'BindDataForm');
+                                let html = ""
+                                $.each(res.localclass, function (index, item) {
+                                    html += '<option value="' + item.Id + '">' + item.Name + '</option>'
+                                })
+                                $('#locallist').html(html)
+                                form.render("select")
+                                $('#localid').click(function () {
+                                    $('select[name=localid]').next(".layui-form-select").children(".layui-select-title").children("input").val("")
+                                })
+                                form.on("submit(BindDataFormSubmit)", function (obj) {
+                                    layer.load(2);
+                                    let data = obj.field;
+                                    data.sourceid = zycid
+                                    data.id = source.Id
+                                    data.onlybind = 1
+                                    let url = "{{"collect"|adminurl}}&action=bindclass";
+                                    admin.req(url, {data: data}, function (res) {
+                                        layer.closeAll('loading');
+                                        layer.msg(res.msg)
+                                        if (res.status == 200) {
+                                            _this.html('<i class="layui-icon" style="color:#080">&#xe605;</i>');
+                                        } else {
+                                            _this.html('<i class="layui-icon" style="color:red">&#x1006;</i>');
+                                        }
+                                        layer.close(dIndex)
+                                    }, 'post')
+                                    return false
+                                })
+                            }
+                        })
+                    })
+                },
+                end: function () {
+                }
+            });
+        }
+    });
+</script>
+{{end}}

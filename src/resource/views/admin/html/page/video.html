@@ -1,0 +1,469 @@
+{{define "css" }}
+<style>
+    .layui-upload-img {
+        width: 92px;
+        height: 92px;
+        margin: 0 10px 10px 0;
+    }
+
+    #tbImgTable + .layui-table-view .layui-table-body tbody > tr > td {
+        padding: 0;
+    }
+
+    #tbImgTable + .layui-table-view .layui-table-body tbody > tr > td > .layui-table-cell {
+        height: 48px;
+        line-height: 48px;
+    }
+
+    .tb-img-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        cursor: zoom-in;
+    }
+
+    .layui-form-item .layui-input-inline {
+        width: auto;
+        margin-left: 5px;
+    }
+
+    .layui-form-radio {
+        margin: 0;
+        padding-right: 0;
+    }
+
+    .layui-form-pane .layui-form-checkbox {
+        margin: 4px 0 4px 1px;
+    }
+
+    .layui-form-checkbox[lay-skin=primary] span {
+        padding-right: 4px;
+    }
+
+    .layui-form-checkbox[lay-skin=primary] i {
+        left: 6px;
+    }
+
+    .layui-form-radio > i {
+        margin-right: 3px;
+        font-size: 16px;
+    }
+
+    .layui-form-pane .layui-form-radio, .layui-form-pane .layui-form-switch {
+        margin-top: 2px;
+    }
+
+    .layui-ji-box {
+        border: 1px solid #e6e6e6;
+        height: 150px;
+        overflow-y: auto;
+        text-align: center;
+    }
+
+    .layui-ji-box .layui-input {
+        text-align: center;
+        margin-left: 0px;
+        padding-left: 0;
+    }
+
+    .name {
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background: #f1f1f1;
+        border: 1px solid #e0e0e0;
+    }
+
+    .zu-box:first-child .layui-zu, .zu-box:nth-child(2) .layui-zu {
+        margin-top: -35px;
+    }
+
+    .mglt5 {
+        margin-left: 10px !important;
+        margin-top: 5px !important;
+    }
+
+    @media screen and (max-width: 990px) {
+        .layui-form-item .layui-col-xs12:first-child {
+            margin-top: 0px;
+        }
+
+        .layui-form-item {
+            margin-bottom: 10px;
+        }
+
+        .layui-form-item .layui-col-xs12 {
+            margin-top: 10px;
+        }
+
+        .name {
+            display: none;
+        }
+
+        .layui-ji-box .layui-input {
+            padding: 0 10px;
+        }
+
+        .zu-box .layui-zu {
+            margin-top: 10px;
+        }
+
+        .zu-box:first-child .layui-zu {
+            margin-top: -35px;
+        }
+    }
+</style>
+{{end}}
+{{define "content"}}
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-header">视频管理</div>
+            <div class="layui-card-body">
+                <form class="layui-form toolbar" lay-filter="DataSearch">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label w-auto">视频类型:</label>
+                            <div class="layui-input-inline mr0">
+                                <select name="type_id" lay-verType="tips" lay-search >
+                                    <option value="">全部</option>
+                                    {{ range .classes}}
+                                    <option value="{{.Id}}">{{.Name}}</option>
+                                    {{end}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label w-auto">视频名称:</label>
+                            <div class="layui-input-inline mr0">
+                                <input name="name" class="layui-input" type="text" placeholder="请输入视频名称"/>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn icon-btn" lay-filter="DataSearchSubmit" lay-submit>
+                                <i class="layui-icon">&#xe615;</i>搜索
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <button id="AddDataBtn" class="layui-btn">添加视频</button>
+            </div>
+            <div class="layui-card-body">
+                <table id="DataTable" lay-filter="DataTable"></table>
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="DataFormView">
+        <form id="DataForm" lay-filter="DataForm" class="layui-form model-form layui-row">
+            <input name="id" type="hidden"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">标题:</label>
+                <div class="layui-input-inline">
+                    <input name="name" placeholder="请输入视频标题" class="layui-input" lay-verType="tips" lay-verify="required" required/>
+                </div>
+<!--                <div class="layui-input-inline">-->
+<!--                    <button type="button" class="layui-btn layui-btn-normal" id="getvideoinfo">获取信息</button>-->
+<!--                </div>-->
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">类型:</label>
+                <div class="layui-input-block">
+                    <select name="type_id" lay-verType="tips" lay-search lay-verify="required" required>
+                        {{ range .classes}}
+                        <option value="{{.Id}}">{{.Name}}</option>
+                        {{end}}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">简介:</label>
+                <div class="layui-input-block">
+                    <textarea name="description"  class="layui-textarea" id="introduction" lay-verType="tips" lay-verify="required"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">标签:</label>
+                <div class="layui-input-block">
+                    <input name="tags" placeholder="请输入标签" value="" class="layui-input" lay-verType="tips" lay-verify="required" required/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">缩略图:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pic" placeholder="最终以此地址为准" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">语言:</label>
+                <div class="layui-input-block">
+                    <input name="lang" placeholder="请输入语言" value="中文" class="layui-input" lay-verType="tips" lay-verify="required" required/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">区域:</label>
+                <div class="layui-input-block">
+                    <input name="area" placeholder="请输入区域" value="中国" class="layui-input" lay-verType="tips" lay-verify="required"
+                           required/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">年份:</label>
+                <div class="layui-input-block">
+                    <input name="year" id="year" placeholder="请输入年份"  value="" class="layui-input" lay-verType="tips" lay-verify="required" required/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">状态:</label>
+                <div class="layui-input-block">
+                    <input name="note" placeholder="请输入状态" value="HD/更新到10集/完结" class="layui-input" lay-verType="tips" lay-verify="required" required/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">评分:</label>
+                <div class="layui-input-block">
+                    <input name="score" placeholder="请输入评分" value="9.1" class="layui-input" lay-verType="tips" lay-verify="required" required/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">演员:</label>
+                <div class="layui-input-block">
+                    <input name="actor" placeholder="请输入演员" value="好多演员" class="layui-input" lay-verType="tips" lay-verify="required"
+                           required/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">导演:</label>
+                <div class="layui-input-block">
+                    <input name="director" placeholder="请输入导演" value="好多导演" class="layui-input" lay-verType="tips"
+                           lay-verify="required" required/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-form-required">最后更新时间:</label>
+                <div class="layui-input-block">
+                    <input name="last" id="last" placeholder="最后更新时间" value="" class="layui-input" lay-verType="tips"
+                           lay-verify="required" required/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="position: relative;">
+                <label class="layui-form-label">播放地址</label>
+                <div class="layui-input-block">
+                    <textarea name="play"  class="layui-textarea" lay-verType="tips" lay-verify="required"></textarea>
+                </div>
+            </div>
+        </form>
+    </script>
+    <!-- 表格操作列 -->
+    <script type="text/html" id="tableBar">
+        <a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+        <a class="layui-btn layui-btn-sm" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
+    </script>
+{{end}}
+{{define "js"}}
+    <script>
+        layui.use(['layer', 'laydate', 'admin', 'form', 'table'], function () {
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            var admin = layui.admin;
+            var form = layui.form;
+            var table = layui.table;
+            var video, action;
+
+
+            // 渲染表格
+            var insTb = table.render({
+                elem: '#DataTable',
+                url: "{{"video"|adminurl}}&action=list",
+                page: true,
+                method:"post",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                cellMinWidth: 100,
+                cols: [[
+                    {field: 'Name', align: "center", title: '名称'},
+                    {
+                        field: 'Pic',  align: "center", title: '缩略图', templet: function (d) {
+                            let src = d.Pic;
+                            return '<img data-index="' + (d.LAY_TABLE_INDEX) + '" src="' + src + '" class="tb-img-circle" tb-img alt=""/>';
+                        }
+                    },
+                    {field: 'Note',align: "center", title: '状态'},
+                    {field: 'Tags',align: "center", title: '标签'},
+                    {field: 'Last',align: "center", title: '最后更新时间',templet:function (dd){
+                            return crtTimeFtt(dd.Last)
+                        }},
+                    {title: '操作', width: 250, toolbar: '#tableBar', fixed: "right", align: "center"}
+                ]],
+                size: 'lg',
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 10,
+            });
+
+            // 添加视频
+            $('#AddDataBtn').click(function () {
+                action = 'add';
+                videoaddorupdate('add');
+            });
+
+
+            // 监听搜索操作
+            form.on('submit(DataSearchSubmit)', function (data) {
+                //执行搜索重载
+                table.reload('DataTable', {
+                    page: {
+                        curr: 1
+                    }
+                    , where:data.field
+                }, 'data');
+
+                return false;
+            });
+
+            //打开添加或者编辑视频窗口
+            function videoaddorupdate(type, dataobj = null) {
+                admin.open({
+                    type: 1,
+                    title: type == 'add' ? '添加视频' : "编辑视频",
+                    area: ['100%', '100%'],
+                    offset: 'auto',
+                    content: $('#DataFormView').html(),
+                    btn:["提交","取消"],
+                    scrollbar: false,
+                    success: function (layero, dIndex) {
+                        let wd = $(layero).children('.layui-layer-content')
+                        admin.modelForm(layero, 'DataFormSubmit', 'DataForm');
+                        //日期时间渲染
+                        laydate.render({
+                            elem: '#year',
+                            type: 'year',
+                        });
+
+                        laydate.render(
+                            {
+                                elem: '#last',
+                                type: "datetime"
+                            }
+                        )
+
+                        if (type == "update") {
+                            let data = dataobj.data;
+                            form.val("DataForm", {
+                                id: data.Id,
+                                type_id: data.TypeId,
+                                name: data.Name,
+                                lang: data.Lang,
+                                area: data.Area,
+                                year: data.Year,
+                                note: data.Note,
+                                score: data.Score==""?9.1:data.Score,
+                                actor: data.Actor,
+                                director: data.Director,
+                                description: data.Description,
+                                tags: data.Tags,
+                                pic: data.Pic,
+                                play:parsePlay(data.Play),
+                                last: data.Last,
+                            })
+                        }
+                        form.render();
+                    },
+                    yes:function (){}
+                });
+            }
+
+            //提交数据
+            form.on("submit(DataFormSubmit)", function (obj) {
+                    layer.confirm("确认提交?",function (){
+                        layer.load(2);
+                        let data = obj.field;
+                        data.play = data.play.replace(/\n/g,"<br>")
+                        let url = "{{"video"|adminurl}}&action=" + action;
+                        admin.req(url, {data: data}, function (res) {
+                            layer.closeAll('loading');
+                            layer.msg(res.msg)
+                            switch (action) {
+                                case "add":
+                                    if (res.status == 200) {
+                                        table.reload('DataTable')
+                                    }
+                                    break;
+                                case "update":
+                                    if (res.status == 200) {
+                                        video.update({
+                                            name: data.Name,
+                                            type_id: data.TypeId,
+                                            lang: data.Lang,
+                                            area: data.Area,
+                                            year: data.Year,
+                                            note: data.Note,
+                                            score: data.Score,
+                                            actor: data.Actor,
+                                            director: data.Director,
+                                            description: data.Description,
+                                            tags: data.Tags,
+                                            pic: data.Pic,
+                                            last: data.Last,
+                                        })
+                                    }
+                                    break;
+                            }
+                        }, 'post')
+                    })
+                return false;
+            })
+
+            // 工具条点击事件
+            table.on('tool(DataTable)', function (obj) {
+                let data = obj.data;
+                let layEvent = obj.event;
+                switch (layEvent) {
+                    case "edit":
+                        video = obj,
+                            action = "update",
+                            videoaddorupdate('update', obj)
+                        break;
+                    case "delete":
+                        layer.confirm("确认删除?", function (index) {
+                            layer.load(2);
+                            let url = ""
+                            admin.req(url, {data: {id: data.id}}, function (res) {
+                                layer.closeAll('loading');
+                                if (res.status == 200) {
+                                    obj.del();
+                                }
+                                layer.msg(res.msg);
+                            }, 'post')
+                        });
+                        break;
+                }
+            });
+
+            /* 点击图片放大 */
+            $(document).off('click.tbImg').on('click.tbImg', '[tb-img]', function () {
+                let imgList = table.cache['DataTable'].map(function (d) {
+                    return {
+                        alt: d.Name,
+                        src: d.Pic
+                    }
+                });
+                layer.photos({photos: {data: imgList, start: $(this).data('index')}, shade: .1, closeBtn: true});
+            });
+
+        });
+        function parsePlay(play){
+           let playstr = ""
+           let playjson =  JSON.parse(play)
+            $.each(playjson,function (index,item){
+                let playlist = item.split("#")
+                playstr+="$$$"+index+"\n"
+                $.each(playlist,function (i,t){
+                    playstr+=t+"\n"
+                })
+            })
+            return playstr
+        }
+    </script>
+{{end}}

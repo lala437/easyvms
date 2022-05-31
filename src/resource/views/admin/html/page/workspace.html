@@ -1,0 +1,288 @@
+{{define "css"}}
+    <style>
+        /** 应用快捷块样式 */
+        .console-app-group {
+            padding: 16px;
+            border-radius: 4px;
+            text-align: center;
+            background-color: #fff;
+            cursor: pointer;
+            display: block;
+        }
+
+        .console-app-group .console-app-icon {
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            margin-bottom: 6px;
+            display: inline-block;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            font-size: 32px;
+            color: #69c0ff;
+        }
+
+        .console-app-group:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, .08);
+        }
+
+        /** //应用快捷块样式 */
+
+        /** 小组成员 */
+        .console-user-group {
+            position: relative;
+            padding: 10px 0 10px 60px;
+        }
+
+        .console-user-group .console-user-group-head {
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            margin-top: -16px;
+            border-radius: 50%;
+        }
+
+        .console-user-group .layui-badge {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            margin-top: -10px;
+        }
+
+        .console-user-group .console-user-group-name {
+            line-height: 1.2;
+        }
+
+        .console-user-group .console-user-group-desc {
+            color: #8c8c8c;
+            line-height: 1;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /** 卡片轮播图样式 */
+        .admin-carousel .layui-carousel-ind {
+            position: absolute;
+            top: -41px;
+            text-align: right;
+        }
+
+        .admin-carousel .layui-carousel-ind ul {
+            background: 0 0;
+        }
+
+        .admin-carousel .layui-carousel-ind li {
+            background-color: #e2e2e2;
+        }
+
+        .admin-carousel .layui-carousel-ind li.layui-this {
+            background-color: #999;
+        }
+
+        /** 广告位轮播图 */
+        .admin-news .layui-carousel-ind {
+            height: 45px;
+        }
+
+        .admin-news a {
+            display: block;
+            line-height: 70px;
+            text-align: center;
+        }
+    </style>
+{{ end }}
+{{define "content"}}
+    <div class="layui-fluid ew-console-wrapper">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        今日视频<span class="layui-badge layui-badge-blue pull-right">个</span>
+                    </div>
+                    <div class="layui-card-body">
+                        <p class="lay-big-font" id="todayvideo"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        总视频<span class="layui-badge layui-badge-red pull-right">个</span>
+                    </div>
+                    <div class="layui-card-body">
+                        <p class="lay-big-font" id="totalvideo"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        总播放器
+                        <span class="icon-text pull-right">个</span>
+                    </div>
+                    <div class="layui-card-body">
+                        <p class="lay-big-font" id="totalplayer"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                      总资源站
+                        <span class="icon-text pull-right">个</span>
+                    </div>
+                    <div class="layui-card-body">
+                        <p class="lay-big-font" id="totalsource"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md8 layui-col-sm6">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">最新视频</div>
+                            <div class="layui-card-body">
+                                <table id="DataTable" lay-filter="DataTable"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4 layui-col-sm6">
+                <div class="layui-card">
+                    <div class="layui-card-header">版本信息</div>
+                    <div class="layui-card-body">
+                        <table class="layui-table layui-text">
+                            <colgroup>
+                                <col width="120">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>当前版本</td>
+                                    <td>1.0</td>
+                                </tr>
+                                <tr>
+                                    <td>Author</td>
+                                    <td>run-bigpig</td>
+                                </tr>
+                            <tr>
+                                <td>主要特色</td>
+                                <td>史上最快的采集速度,为您快速建站开挂</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+            <div class="layui-col-md4 layui-col-sm6">
+                <div class="layui-card">
+                    <div class="layui-card-header">系统信息</div>
+                    <div class="layui-card-body">
+                        <table class="layui-table layui-text">
+                            <colgroup>
+                                <col width="120">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <td>系统</td>
+                                <td>{{.platform}}-{{.family}}-{{.version}}</td>
+                            </tr>
+                            <tr>
+                                <td>Cpu核心</td>
+                                <td id="cpunum"></td>
+                            </tr>
+                            <tr>
+                                <td>总内存</td>
+                                <td id="memtotal"></td>
+                            </tr>
+                            <tr>
+                                <td>可用内存</td>
+                                <td id="memaviable"></td>
+                            </tr>
+                            <tr>
+                                <td>内存使用率</td>
+                                <td id="mempercent"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+        <script type="text/html" id="tableBar">
+            <a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="goto"><i class="layui-icon"></i>跳转</a>
+        </script>
+{{end}}
+{{define "js"}}
+    <script>
+        layui.use(['layer', 'carousel', 'table','admin'], function () {
+            var $ = layui.jquery;
+            var admin = layui.admin;
+            var table = layui.table;
+            var layer = layui.layer;
+             getinfo()
+            function getinfo(){
+               admin.req("{{"workspace"|adminurl}}",{data:1},function (res){
+                         $('#totalvideo').text(res.numberinfo.totalvideo)
+                         $('#todayvideo').text(res.numberinfo.todayvideo)
+                         $('#totalplayer').text(res.numberinfo.totalplayer)
+                         $('#totalsource').text(res.numberinfo.totalsource)
+                         $('#cpunum').text(res.systeminfo.cpunum)
+                         $('#cpupercent').text(res.systeminfo.cpupercent+"%")
+                         $('#memtotal').text(res.systeminfo.memtotal/1000/1000+"MB")
+                         $('#memaviable').text(res.systeminfo.memaviable/1000/1000+"MB")
+                         $('#mempercent').text((res.systeminfo.memusedpercent).toFixed(2)+"%")
+               },"post")
+            }
+            // 渲染表格
+            var insTb = table.render({
+                elem: '#DataTable',
+                url: "{{"video"|adminurl}}&action=list",
+                page: true,
+                method:"post",
+                height:420,
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                cellMinWidth: 100,
+                cols: [[
+                    {field: 'Name', align: "center", title: '名称'},
+                    {
+                        field: 'Pic',  align: "center", title: '缩略图', templet: function (d) {
+                            let src = d.Pic;
+                            return '<img data-index="' + (d.LAY_TABLE_INDEX) + '" src="' + src + '" class="tb-img-circle" tb-img alt=""/>';
+                        }
+                    },
+                    {field: 'Note',align: "center", title: '状态'},
+                    {field: 'Tags',align: "center", title: '标签'},
+                    {field: 'Last',align: "center", title: '最后更新时间',templet:function (dd){
+                            return crtTimeFtt(dd.Last)
+                        }},
+                    {title: '操作', toolbar: '#tableBar', fixed: "right", align: "center"}
+                ]],
+                size: 'lg',
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 15,
+            });
+
+            table.on('tool(DataTable)', function (obj) {
+                let data = obj.data;
+                let layEvent = obj.event;
+                switch (layEvent) {
+                    case "goto":
+                        top.open("/play/"+data.Id+"/play.html")
+                    break;
+                }
+            })
+            setInterval(function (){
+                getinfo()
+            },60000)
+        });
+    </script>
+{{end}}
